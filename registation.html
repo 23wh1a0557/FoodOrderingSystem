@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Safety - Register & Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #ff416c;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(255, 75, 43, 0.5);
+        }
+        .toggle-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .toggle-link a {
+            color: #ff416c;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Registration Form -->
+        <div id="register-form">
+            <h2>Women Safety Registration</h2>
+            <form onsubmit="registerUser(event)">
+                <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="text" id="phone" name="phone" placeholder="Phone Number" required>
+                <input type="text" id="emergencycontact" name="emergencycontact" placeholder="Emergency Contact Number" required>
+                <div class="error" id="register-error"></div>
+                <button type="submit">Register</button>
+            </form>
+            <div class="toggle-link">
+                Already have an account? <a onclick="toggleForm('login')">Login here</a>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" style="display: none;">
+            <h2>Login</h2>
+            <form onsubmit="loginUser(event)">
+                <input type="email" id="loginEmail" name="email" placeholder="Email" required>
+                <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+                <div class="error" id="login-error"></div>
+                <button type="submit">Login</button>
+            </form>
+            <div class="toggle-link">
+                Don't have an account? <a onclick="toggleForm('register')">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm(form) {
+            if (form === 'login') {
+                document.getElementById("register-form").style.display = "none";
+                document.getElementById("login-form").style.display = "block";
+            } else {
+                document.getElementById("login-form").style.display = "none";
+                document.getElementById("register-form").style.display = "block";
+            }
+        }
+
+        function registerUser(event) {
+            event.preventDefault();
+            const fullName = document.getElementById("fullName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const emergencyContact = document.getElementById("emergencycontact").value.trim();
+            const errorDiv = document.getElementById("register-error");
+
+            // Basic validation
+            if (isNaN(phone) || isNaN(emergencyContact)) {
+                errorDiv.innerText = "Phone numbers must be numeric.";
+                return;
+            }
+            if (password.length < 6) {
+                errorDiv.innerText = "Password must be at least 6 characters.";
+                return;
+            }
+
+            console.log("Registration Data Submitted", { fullName, email, phone, emergencyContact });
+            alert("Registration Successful!");
+            toggleForm('login');  // Redirect to login after successful registration
+        }
+
+        function loginUser(event) {
+            event.preventDefault();
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+            const errorDiv = document.getElementById("login-error");
+
+            if (!email.includes("@")) {
+                errorDiv.innerText = "Please enter a valid email.";
+                return;
+            }
+
+            console.log("Login Attempt", { email, password });
+            alert("Login Successful!");
+        }
+    </script>
+</body>
+</html>
